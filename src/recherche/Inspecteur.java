@@ -23,10 +23,11 @@ public class Inspecteur {
             List<String> lignes = Files.readAllLines(file.toPath());
 
             return IntStream.range(0, lignes.size())
-                    .filter(i -> lignes.get(i).indexOf(aChercher) > -1)
-                    .mapToObj(i -> file.getAbsolutePath() + "\u00A7" + (i + 1))
-                    .collect(Collectors.toList());
+                    .filter(i -> lignes.get(i).indexOf(aChercher) > -1) // filter: garde uniquement les lignes contenant le texte a chercher
+                    .mapToObj(i -> file.getAbsolutePath() + "\u00A7" + (i + 1)) // mapToObj: construit la chaîne de resultat au format "chemin§ligne"
+                    .collect(Collectors.toList()); // collect: rassemble les resultats dans une liste
         } catch (IOException e) {
+            // Gestion des erreurs de lecture de fichier
             e.printStackTrace();
             return new ArrayList<>();
         }
