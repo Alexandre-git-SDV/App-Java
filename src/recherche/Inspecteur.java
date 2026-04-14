@@ -9,26 +9,24 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Inspecteur {
-    // Methode d'inspection d'un fichier Java pour rechercher un texte specifique
-    // Retourne une liste de chaines au format "chemin§numeroLigne" pour chaque correspondance
+    // Methode d'inspection d'un fichier Java pour rechercher un texte specifique.
+    // Retourne une liste de chaines au format "chemin§numeroLigne" pour chaque correspondance.
     public static List<String> inspecter(String fichier, String aChercher) {
-        File file = new File(fichier); // Creation de l'objet File a partir du chemin fourni
+        File file = new File(fichier);
 
-        // Verification que le fichier est bien un fichier .java
+        // Ignore les fichiers qui ne sont pas des sources Java.
         if (!file.getName().endsWith(".java")) {
-            return new ArrayList<>(); // Si ce n'est pas le cas, retourne une liste vide
+            return new ArrayList<>();
         }
 
-        try { // Lecture de toutes les lignes du fichier en memoire
+        try {
             List<String> lignes = Files.readAllLines(file.toPath());
-            // Utilisation de IntStream pour.iterer sur les indices des lignes
 
             return IntStream.range(0, lignes.size())
-                    .filter(i -> lignes.get(i).indexOf(aChercher) > -1) // filter: garde uniquement les lignes contenant le texte a chercher
-                    .mapToObj(i -> file.getAbsolutePath() + " - Ligne §" + (i + 1)) // mapToObj: construit la chaîne de resultat au format "chemin§ligne"
-                    .collect(Collectors.toList()); // collect: rassemble les resultats dans une liste
+                    .filter(i -> lignes.get(i).indexOf(aChercher) > -1)
+                    .mapToObj(i -> file.getAbsolutePath() + "\u00A7" + (i + 1))
+                    .collect(Collectors.toList());
         } catch (IOException e) {
-            // Gestion des erreurs de lecture de fichier
             e.printStackTrace();
             return new ArrayList<>();
         }

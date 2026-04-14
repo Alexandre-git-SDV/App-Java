@@ -1,13 +1,17 @@
 package Fenetre;
 
+import export.ExportService;
 import historique.Historique;
 import historique.Saisie;
-import java.util.List;
+import recherche.Recherche;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.util.List;
 
 public class Fenetre extends JFrame {
+    private final ExportService exportService = new ExportService();
     private final Historique historique = new Historique();
     private final JTextField champRepertoire = new JTextField(20);
     private final JTextField champTexte = new JTextField(20);
@@ -90,12 +94,24 @@ public class Fenetre extends JFrame {
         historique.sauvegarder(champRepertoire.getText(), champTexte.getText());
         mettreAJourEtatRetour();
 
-        // Appel de rechercherEtAfficher pour afficher les resultats de la recherche dans la console
-        System.out.println("=== Resultats de la recherche ===");
-        historique.rechercherEtAfficher(champRepertoire.getText(), champTexte.getText());
+        try {
+            List<String> resultats = rechercher();
+            exportService.exporter(resultats);
+            modale.afficherMessage("Recherche terminee. Resultats exportes.");
+        } catch (IOException e) {
+            modale.afficherMessage("Erreur lors de l'export : " + e.getMessage());
+        }
+    }
 
+    private List<String> rechercher() {
+        List<String> resultats = Recherche.getInstance()
+                .rechercher(champRepertoire.getText(), champTexte.getText());
+
+        System.out.println("=== Resultats de la recherche ===");
+        resultats.forEach(System.out::println);
         System.out.println("=================================");
-        modale.afficherMessage("Saisie sauvegardee.");
+
+        return resultats;
     }
 
     private void mettreAJourEtatRetour() {
