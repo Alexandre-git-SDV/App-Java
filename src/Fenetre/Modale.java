@@ -1,32 +1,30 @@
 package Fenetre;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-import java.awt.*;
+import java.awt.BorderLayout;
 
 public class Modale extends JDialog {
-    private JButton valider;
+    private final JLabel label;
+    private final JButton valider;
+
     public Modale(JFrame frame) {
-// paramètres : fenêtre parente, verrouillage
         super(frame, true);
-        this.setTitle("Infos");
-        this.setSize(200, 100);
+        setTitle("Infos");
+        setSize(250, 120);
+        setLocationRelativeTo(frame);
+        setLayout(new BorderLayout());
 
-        //Mise en place du layout
-        this.setLayout(new BorderLayout());
+        label = new JLabel("Infos / Erreur", JLabel.CENTER);
 
-        //Ajout de texte par défaut
-        JLabel label = new JLabel("Infos / Erreur", JLabel.CENTER);
+        valider = new JButton("OK");
+        valider.addActionListener(event -> dispose());
 
-        //Le bouton pour fermer la pop up
-        this.valider = new JButton("OK");
-        this.valider.addActionListener(event -> this.dispose());
-
-        //Organisation des éléments
-        this.add(label, BorderLayout.CENTER);
-        this.add(valider, BorderLayout.SOUTH);
+        add(label, BorderLayout.CENTER);
+        add(valider, BorderLayout.SOUTH);
     }
-    public void appliquer() {
-        this.setVisible(true);
+
+    public void afficherMessage(String message) {
+        label.setText(message);
+        setVisible(true);
     }
 }
