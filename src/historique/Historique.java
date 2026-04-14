@@ -1,5 +1,7 @@
 package historique;
 
+import recherche.Recherche;
+import java.util.List;
 import java.util.Stack;
 
 public final class Historique {
@@ -43,5 +45,13 @@ public final class Historique {
     // Indique si un retour arriere est possible
     public boolean peutRestaurer() {
         return sauvegardes.size() > 1;
+    }
+
+    // affichage des résultats de la recherche dans la console
+    public void rechercherEtAfficher(String repertoire, String texteRecherche) {
+        List<String> resultats = Recherche.getInstance().rechercher(repertoire, texteRecherche);
+        for (String resultat : resultats) {
+            System.out.println(resultat);
+        }
     }
 }

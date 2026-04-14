@@ -2,6 +2,7 @@ package Fenetre;
 
 import historique.Historique;
 import historique.Saisie;
+import java.util.List;
 
 import javax.swing.*;
 import java.awt.*;
@@ -88,6 +89,12 @@ public class Fenetre extends JFrame {
     public void appliquer() {
         historique.sauvegarder(champRepertoire.getText(), champTexte.getText());
         mettreAJourEtatRetour();
+
+        // Appel de rechercherEtAfficher pour afficher les resultats de la recherche dans la console
+        System.out.println("=== Resultats de la recherche ===");
+        historique.rechercherEtAfficher(champRepertoire.getText(), champTexte.getText());
+
+        System.out.println("=================================");
         modale.afficherMessage("Saisie sauvegardee.");
     }
 
