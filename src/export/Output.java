@@ -8,5 +8,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Output {
+    // Retourne le nom du fichier a utiliser pour l'export
     String value();
 }
